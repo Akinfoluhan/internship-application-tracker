@@ -24,23 +24,23 @@ def create_application(application: ApplicationCreate):
 
 @router.get("/{application_id}")
 def get_application(application_id: int):
-    for app in applications:
-        if app["id"] == application_id:
-            return app
+    for application in applications:
+        if application["id"] == application_id:
+            return application
     raise HTTPException(status_code=404, detail="Application not found")
 
 @router.patch("/{application_id}")
 def update_application(application_id: int, application: ApplicationUpdate):
-    for app in applications:
-        if app["id"] == application_id:
-            app.update(application.model_dump(exclude_unset=True))
-            return app
+    for application in applications:
+        if application["id"] == application_id:
+            application.update(application.model_dump(exclude_unset=True))
+            return application
     raise HTTPException(status_code=404, detail="Application not found")
 
 @router.delete("/{application_id}")
 def delete_application(application_id: int):
-    for app in applications:
-        if app["id"] == application_id:
-            applications.remove(app)
+    for application in applications:
+        if application["id"] == application_id:
+            applications.remove(application)
             return {"detail": "Application deleted"}
     raise HTTPException(status_code=404, detail="Application not found")
