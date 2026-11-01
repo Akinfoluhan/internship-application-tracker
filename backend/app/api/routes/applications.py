@@ -30,10 +30,10 @@ def get_application(application_id: int):
     raise HTTPException(status_code=404, detail="Application not found")
 
 @router.patch("/{application_id}")
-def update_application(application_id: int, application: ApplicationUpdate):
+def update_application(application_id: int, app: ApplicationUpdate):
     for application in applications:
         if application["id"] == application_id:
-            application.update(application.model_dump(exclude_unset=True))
+            application.update(app.model_dump(exclude_unset=True))
             return application
     raise HTTPException(status_code=404, detail="Application not found")
 
