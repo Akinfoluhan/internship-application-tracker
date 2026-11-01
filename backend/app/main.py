@@ -1,4 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
+from sqlalchemy.orm import Session
+from app.core.database import get_db
+from sqlalchemy import text
 from app.api.routes.applications import router as applications_router
 
 app = FastAPI()
@@ -12,3 +15,8 @@ def read_root():
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
+
+@app.get("/db-health")
+def db_health_check(db: Session = Depends(get_db)):
+    result = db.execute(text("SELECT current_database();"))
+    return {"database": result.scalar_one()}
