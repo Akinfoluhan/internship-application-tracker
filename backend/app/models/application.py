@@ -1,7 +1,11 @@
-from sqlalchemy import String, Date, Text
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import String, Date, Text, ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.core.database import Base
 from datetime import date
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from app.models.user import User
 
 class Application(Base):
     __tablename__ = "applications"
@@ -18,3 +22,5 @@ class Application(Base):
     date_applied: Mapped[date | None] = mapped_column(Date, nullable=True)
     deadline: Mapped[date | None] = mapped_column(Date, nullable=True)
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
+    user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"), name="fk_applications_user_id", nullable=True)
+    user: Mapped["User | None"] = relationship("User", back_populates="applications")
