@@ -3,10 +3,12 @@ from sqlalchemy.orm import Session
 from app.core.database import get_db
 from sqlalchemy import text
 from app.api.routes.applications import router as applications_router
+from app.api.routes.auth import router as auth_router
 
 app = FastAPI()
 
 app.include_router(applications_router)
+app.include_router(auth_router)
 
 @app.get("/")
 def read_root():
